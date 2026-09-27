@@ -9,7 +9,7 @@ Otis is the designer. He doesn't read code. He judges changes by playing them on
 - Keep replies short. Ask one question at a time when a design decision is his to make.
 
 ## How the project is built
-- **No build step, no frameworks, no npm packages in the game.** Plain HTML, CSS and JavaScript files served as-is by Vercel. The only outside code is Google Fonts.
+- **No build step, no frameworks, no npm packages in the game.** Plain HTML, CSS and JavaScript files served as-is by Vercel. The only outside code is Supabase's client, loaded from a CDN the first time a note is sent, plus Google Fonts.
 - `index.html` — the front page (a burger that keeps stacking itself, and a Play button). It borrows `play/js/data.js` and `play/js/draw.js` to draw the burger.
 - `play/index.html` — the game page. It loads `styles.css` and then the scripts in `play/js/` **in the order listed there**.
 - The scripts are classic scripts that share one global scope. Order matters: a file can only use things defined in files above it *while it is loading*. Calls that happen later (on tap, per frame) can use anything.
@@ -18,9 +18,10 @@ Otis is the designer. He doesn't read code. He judges changes by playing them on
 
 | File | What's in it |
 |---|---|
-| config.js | `VERSION` |
+| config.js | `VERSION`, Supabase URL and publishable key |
 | data.js | Ingredients (`ING`: name, layer height, card art height) and the five days (`DAYS`: toppings, orders, patience, rail size, story) |
 | core.js | Small helpers, saved progress (`BEST`), game state `S` |
+| online.js | Supabase connection, the feedback screen, quiet crash notes |
 | audio.js | Procedural sound effects |
 | draw.js | Ink SVG for each ingredient, burgers on tickets, customer faces, cards |
 | kitchen.js | Setting up a day: orders, the deal, the pantry |
@@ -49,6 +50,14 @@ Progress is kept in the browser's localStorage. An update must never wipe or bre
 - Key: `inkburger` — `day` and `tips` of the best run, `won` once the week has been won, and `muted`.
 - Never rename or remove a saved field. Add new fields with defaults.
 
+## Supabase
+- It's the same Supabase project as Ink Nine, with its own table `burger_feedback` (`supabase/01-burger-feedback.sql`): tester notes with the version and a snapshot of the game (day, street meter, tickets, screen size), readable only in the Supabase dashboard.
+- "Send feedback" is on the title, pause, end-of-day and lose screens. It opens over the current screen, and Back restores that screen exactly.
+- Unexpected errors are sent quietly as kind "Crash" (at most three per visit, never from localhost).
+- `config.js` holds only the public publishable key. **Never add a Supabase secret or service key anywhere.**
+- Players are anonymous Supabase users. Row-level security lets each player insert only their own notes.
+- Sending a note from local play lands in the real table. Any schema change needs a new numbered file in `supabase/` and a clear note to Otis to run it before merging.
+
 ## Look and feel (keep it consistent)
 - Paper and ink only: white and black, with grey only for secondary text. Shading is hatching, dots and stripes, never color. Dark mode swaps paper and ink.
 - Fonts: Bagel Fat One (display) and Bricolage Grotesque (UI). These are Ink Burger's own; Ink Nine uses Fraunces and Figtree.
@@ -61,5 +70,6 @@ Progress is kept in the browser's localStorage. An update must never wipe or bre
 - Title screen shows the version; "Open the kitchen" then "Start shift" deals the cards and the first ticket slides in.
 - Tap the pantry: a card flips. Tap a bottom bun: it flies onto the ticket. Drag a card onto a higher-numbered column.
 - Finish an order: "Served" stamp, tips go up, the meter moves toward Ink Burger. Let one run out: it walks to Glossy's.
+- Send feedback from the pause screen: it says thank you, and Back returns to the pause screen.
 - Pause, resume, and the end-of-day card; the best run is shown on the title screen after a refresh.
 - No errors in the browser console.
