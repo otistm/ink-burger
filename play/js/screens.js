@@ -25,7 +25,7 @@ function titleScreen(){
       <p><b>Tap the pantry</b> to flip a new card. Orders that wait too long walk across the street to Glossy's.</p>
     </div>
     <p class="best">${bestLine()}</p>
-    <p class="ver">Version ${VERSION}</p>`);
+    <p class="ver">Version ${VERSION}${ONLINE?' · ':''}${feedbackLink()}</p>`);
   if(!RM)scr.querySelectorAll('.logo g').forEach((g,i)=>g.animate([
     {transform:'translateY(-150px)',opacity:0},{transform:'translateY(0) scale(1.18,.62)',opacity:1,offset:.68},
     {transform:'scale(.94,1.1)',offset:.84},{transform:'none'}],{duration:560,delay:150+i*140,easing:'cubic-bezier(.55,0,.8,.6)',fill:'backwards'}));
@@ -51,20 +51,23 @@ function endDay(){
     show(`<p class="kick">Friday, closing time</p><h1>The street is yours</h1>
       <p class="story">Saturday morning, the neon at Glossy's flickered and went dark. Your regulars never left.</p>
       <div class="stats"><div><b>$${S.tips}</b><span>tips this week</span></div><div><b>${S.loyalty}%</b><span>of the street</span></div></div>
-      <button class="btn" data-act="new">Run it back</button><button class="btn quiet" data-act="menu">Back to menu</button>`);
+      <button class="btn" data-act="new">Run it back</button><button class="btn quiet" data-act="menu">Back to menu</button>
+    <p class="ver">${feedbackLink()}</p>`);
     return;
   }
   show(`<p class="kick">${DAYS[S.day].name}, closing time</p><h1>Shift over</h1>
     <div class="stats"><div><b>${S.served}</b><span>served</span></div><div><b>${S.walked}</b><span>walked to Glossy's</span></div><div><b>$${S.dayTips}</b><span>in tips</span></div></div>
     ${meterHTML()}
-    <button class="btn" data-act="next">Open on ${DAYS[S.day+1].name}</button>`);
+    <button class="btn" data-act="next">Open on ${DAYS[S.day+1].name}</button>
+    <p class="ver">${feedbackLink()}</p>`);
 }
 function loseScreen(){
   recordBest(false);S.mode='end';
   show(`<p class="kick">${DAYS[S.day].name}</p><h1>Glossy's took the street</h1>
     <p class="story">The line at Glossy's reached your front door. Ink Burger closes early today.</p>
     <div class="stats"><div><b>${S.served}</b><span>served</span></div><div><b>${S.walked}</b><span>walked out</span></div></div>
-    <button class="btn" data-act="retry">Retry ${DAYS[S.day].name}</button><button class="btn quiet" data-act="menu">Back to menu</button>`);
+    <button class="btn" data-act="retry">Retry ${DAYS[S.day].name}</button><button class="btn quiet" data-act="menu">Back to menu</button>
+    <p class="ver">${feedbackLink()}</p>`);
 }
 function pauseScreen(){
   if(S.mode!=='play')return;S.mode='paused';
@@ -72,7 +75,8 @@ function pauseScreen(){
     <button class="btn" data-act="resume">Resume</button>
     <button class="btn quiet" data-act="retry">Restart ${DAYS[S.day].name}</button>
     <button class="btn quiet" data-act="sound">Sound: ${S.muted?'off':'on'}</button>
-    <button class="btn quiet" data-act="menu">Quit to menu</button>`);
+    <button class="btn quiet" data-act="menu">Quit to menu</button>
+    <p class="ver">${feedbackLink()}</p>`);
 }
 scr.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;snd('pick');
@@ -83,5 +87,6 @@ scr.addEventListener('click',e=>{
   else if(a==='resume'){hide();S.mode='play';last=performance.now()}
   else if(a==='sound'){S.muted=!S.muted;BEST.muted=S.muted;saveBest();b.textContent='Sound: '+(S.muted?'off':'on')}
   else if(a==='menu')titleScreen();
+  else if(a==='feedback')showFeedback();
 });
 $('#pauseBtn').addEventListener('click',pauseScreen);

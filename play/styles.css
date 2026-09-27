@@ -120,3 +120,14 @@ svg g[data-li]{transform-box:fill-box;transform-origin:50% 100%}
 .stats span{font-size:12px;font-weight:600;line-height:1.2;display:block;margin-top:4px}
 .bigmeter{width:100%;margin-bottom:22px}
 @media (prefers-reduced-motion:reduce){ .ghost .gi{animation:none} .mad .face{animation:none} #mfill{transition:none} }
+
+/* feedback */
+.linkbtn{appearance:none;border:0;background:none;padding:2px 4px;font:inherit;font-weight:800;color:var(--ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.ver .linkbtn{color:var(--mute)}
+.fbk{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:0 0 12px}
+.fbc{appearance:none;border:2px solid var(--ink);background:var(--paper);color:var(--ink);border-radius:999px;padding:6px 12px;font:800 13px 'Bricolage Grotesque',system-ui,sans-serif;cursor:pointer}
+.fbc.on{background:var(--ink);color:var(--paper)}
+#fbNote{width:100%;border:2px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);padding:10px 12px;font:500 16px/1.4 'Bricolage Grotesque',system-ui,sans-serif;resize:vertical;-webkit-user-select:text;user-select:text}
+#fbNote::placeholder{color:var(--mute)}
+.fbmsg{min-height:1.3em;font-size:13px;font-weight:600;margin:8px 0 6px;line-height:1.35}
+.btn:disabled{opacity:.5;cursor:default}
