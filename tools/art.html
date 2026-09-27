@@ -1,0 +1,38 @@
+<!doctype html>
+<!-- Draws the app icons and the share image with the game's own burger. Not part of the game.
+     Open /tools/art.html?icon, ?maskable or ?og, or run tools/make-art.sh to write the PNGs. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Bricolage+Grotesque:opsz,wght@12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#000;--paper:#fff}
+html,body{margin:0;background:#fff;overflow:hidden}
+.icon{width:512px;height:512px;display:grid;place-items:center;background:#fff}
+.icon svg{width:74%;height:auto;overflow:visible}
+.maskable svg{width:56%}
+.og{width:1200px;height:630px;display:grid;grid-template-columns:520px 1fr;align-items:center;gap:30px;padding:0 70px;box-sizing:border-box;
+  background:radial-gradient(circle,#000 1px,transparent 1.3px) 0 0/22px 22px}
+.og::before{content:'';position:absolute;inset:0;background:#fff;opacity:.86;z-index:0}
+.og>*{position:relative;z-index:1}
+.og svg{width:100%;height:auto;overflow:visible}
+.og h1{font:400 118px/.9 'Bagel Fat One','Arial Black',sans-serif;margin:0}
+.og p{font:800 40px/1.2 'Bricolage Grotesque',system-ui,sans-serif;margin:26px 0 0}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <pattern id="hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" style="fill:var(--paper)"/><line x1="0" y1="0" x2="0" y2="5" style="stroke:var(--ink);stroke-width:2.6"/></pattern>
+  <pattern id="dots" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" style="fill:var(--paper)"/><circle cx="3" cy="3" r="1.15" style="fill:var(--ink)"/></pattern>
+  <pattern id="stripes" width="6" height="5" patternUnits="userSpaceOnUse"><rect width="6" height="5" style="fill:var(--paper)"/><line x1="0" y1="2.5" x2="6" y2="2.5" style="stroke:var(--ink);stroke-width:1.5"/></pattern>
+</defs></svg>
+<div id="out"></div>
+<script src="../play/js/data.js"></script>
+<script src="../play/js/draw.js"></script>
+<script>
+const q=location.search.slice(1)||'icon', out=document.getElementById('out');
+if(q==='og') out.innerHTML=`<div class="og">${burgerSVG([0,1,2,4,5,8],99,null,2.6)}<div><h1>Ink Burger</h1><p>Stack cards. Serve burgers. Beat the place across the street.</p></div></div>`;
+else out.innerHTML=`<div class="icon ${q}">${burgerSVG([0,1,2,4,8],99,null,3.2)}</div>`;
+</script>
+</body>
+</html>
