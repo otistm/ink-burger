@@ -1,9 +1,11 @@
 /* Ink Burger: which cards can go where. */
 "use strict";
+// A card sits on a lower card of the same dish.
+const stacks=(lo,hi)=>ING[lo.t].d===ING[hi.t].d&&hi.t>lo.t;
 function parseLoc(loc){const p=loc.split(':');return{kind:p[0],a:+p[1],i:+p[2]}}
 function getRun(loc){
   const L=parseLoc(loc);
-  if(L.kind==='col'){const col=S.cols[L.a];for(let k=L.i;k<col.length-1;k++)if(!(col[k+1].t>col[k].t))return null;return col.slice(L.i)}
+  if(L.kind==='col'){const col=S.cols[L.a];for(let k=L.i;k<col.length-1;k++)if(!stacks(col[k],col[k+1]))return null;return col.slice(L.i)}
   if(L.kind==='waste')return S.waste.length?[S.waste[S.waste.length-1]]:null;
   if(L.kind==='prep')return S.prep[L.a]?[S.prep[L.a]]:null;
   return null;
@@ -20,7 +22,7 @@ const ticketById=id=>S.slots.find(t=>t&&t.id===id);
 function matches(t,types){return t.p+types.length<=t.recipe.length&&types.every((x,k)=>t.recipe[t.p+k]===x)}
 function canDrop(tgt,run,loc){
   const [k,a]=tgt.split(':'),L=parseLoc(loc);
-  if(k==='col'){const c=+a;if(L.kind==='col'&&L.a===c)return false;const col=S.cols[c];if(!col.length)return true;const top=col[col.length-1];return top.up&&top.t<run[0].t}
+  if(k==='col'){const c=+a;if(L.kind==='col'&&L.a===c)return false;const col=S.cols[c];if(!col.length)return true;const top=col[col.length-1];return top.up&&stacks(top,run[0])}
   if(k==='prep')return run.length===1&&!S.prep[+a];
   if(k==='ticket'){const t=ticketById(+a);return isActive(t)&&matches(t,run.map(c=>c.t))}
   return false;

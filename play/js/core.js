@@ -10,6 +10,12 @@ let CW=70,CH=92;
 
 let BEST={};
 try{BEST=JSON.parse(localStorage.getItem('inkburger')||'{}')||{}}catch(e){BEST={}}
+// Older saves (before weeks) kept only day, tips and won for the one burger week. Carry them over, and let anyone who
+// already won that week carry on into week 2. The old fields stay as they were.
+if(!BEST.best&&BEST.day!=null){
+  BEST.best=BEST.won?{week:1,day:0,tips:BEST.tips|0,won:false}:{week:0,day:BEST.day|0,tips:BEST.tips|0,won:false};
+  if(BEST.won&&!BEST.run)BEST.run={v:1,week:1,day:0,loyalty:60,tips:BEST.tips|0};
+}
 function saveBest(){try{localStorage.setItem('inkburger',JSON.stringify(BEST))}catch(e){}}
 
-const S={mode:'menu',day:0,loyalty:60,tips:0,muted:!!BEST.muted,flipped:new Set(),popping:new Set(),seen:new Set(),stamped:new Set()};
+const S={mode:'menu',week:0,day:0,loyalty:60,tips:0,muted:!!BEST.muted,flipped:new Set(),popping:new Set(),seen:new Set(),stamped:new Set()};

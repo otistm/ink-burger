@@ -28,8 +28,8 @@ async function sendNote(kind,note){
 /* ---------- feedback: testers send notes straight into the burger_feedback table ---------- */
 const FB_KINDS=['Bug','Idea','Too hard','Too easy','Other'];
 function feedbackContext(){
-  const D=DAYS[S.day],live=S.slots?S.slots.filter(t=>t&&!t.done&&!t.gone):[];
-  return{version:VERSION,day:D?D.name:'',mode:S.fbFrom||S.mode,street:S.loyalty,tips:S.tips,served:S.served,walked:S.walked,
+  const D=S.D,live=S.slots?S.slots.filter(t=>t&&!t.done&&!t.gone):[];
+  return{version:VERSION,week:S.week+1,day:D?D.name:'',mode:S.fbFrom||S.mode,street:S.loyalty,tips:S.tips,served:S.served,walked:S.walked,
     shift:S.clock?Math.round(S.clock):0,waiting:S.queue?S.queue.length:null,
     tickets:live.map(t=>`${t.name} ${t.p}/${t.recipe.length}`).join(', '),pantry:S.stock?S.stock.length:null,
     screen:`${innerWidth}x${innerHeight}`,device:navigator.userAgent.slice(0,160),

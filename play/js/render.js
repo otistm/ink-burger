@@ -30,7 +30,7 @@ function renderRail(){
   rail.innerHTML=S.slots.map(t=>t?ticketHTML(t):'<div class="slot-empty"></div>').join('');
 }
 function renderMid(){
-  const D=DAYS[S.day];
+  const D=S.D;
   [0,1].forEach(i=>{
     const el=$('#prep'+i),c=S.prep[i];
     el.classList.toggle('empty',!c);
@@ -43,6 +43,7 @@ function renderMid(){
   st.classList.toggle('empty',!S.stock.length);
   if(S.stock.length)st.innerHTML=cardHTML(S.stock[S.stock.length-1])+`<span class="cnt">${S.stock.length}</span>`;
   else st.innerHTML=`<span class="lbl">${S.waste.length?'↺<br>Restock':'Empty'}</span>`;
+  $('#rival').textContent=D.rival;
   $('#info').innerHTML=`<b>${D.name}</b><span>${S.queue.length} in line</span>`;
   $('#tips').textContent='$'+S.tips;
   $('#mfill').style.width=S.loyalty+'%';
@@ -50,7 +51,7 @@ function renderMid(){
 function renderTab(){
   const H=tab.clientHeight;let h='';
   S.cols.forEach((col,c)=>{
-    const offs=[];for(let i=0;i<col.length-1;i++)offs.push(col[i].up?Math.round(CH*.3):Math.round(CH*.12));
+    const offs=[];for(let i=0;i<col.length-1;i++)offs.push(col[i].up?Math.round(CH*.34):Math.round(CH*.12));
     const tot=offs.reduce((a,b)=>a+b,0);
     const f=tot>0&&tot+CH>H?Math.max(.25,(H-CH)/tot):1;
     let y=0,inner='';

@@ -1,11 +1,11 @@
 /* Ink Burger: the shift clock: customers arriving, waiting and walking out. */
 "use strict";
 function spawn(idx){
-  const D=DAYS[S.day],o=S.queue.shift(),max=D.base+5*o.recipe.length;
-  S.slots[idx]={id:++S.tid,no:++S.no,recipe:o.recipe,name:o.name,p:0,time:max,max,tilt:(Math.random()*3-1.5).toFixed(2)};
+  const D=S.D,o=S.queue.shift(),max=D.base+5*o.recipe.length;
+  S.slots[idx]={id:++S.tid,no:++S.no,dish:o.dish,recipe:o.recipe,name:o.name,p:0,time:max,max,tilt:(Math.random()*3-1.5).toFixed(2)};
 }
 function tick(dt){
-  S.clock+=dt;let changed=false;const D=DAYS[S.day];
+  S.clock+=dt;let changed=false;const D=S.D;
   S.slots.forEach((t,i)=>{
     if(!t)return;
     if(t.removeAt!=null){if(S.clock>=t.removeAt){S.slots[i]=null;changed=true;S.nextArrive=Math.max(S.nextArrive,1.2)}return}
