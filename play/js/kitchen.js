@@ -8,20 +8,35 @@ function burgerName(tops){
   if(tops.length===1&&has(2))return 'Cheeseburger';
   if(has(2))return 'Cheese deluxe';
   if(has(4)&&has(5))return 'Garden burger';
-  return SHORT[tops[0]]+' burger';
+  return ING[tops[0]].sh+' burger';
+}
+function orderName(d,tops){
+  const N=DISHES[d];
+  if(d===0)return burgerName(tops);
+  if(!tops.length)return N.plain;
+  if(tops.length>=3)return N.works;
+  return ING[tops[0]].sh+' '+N.noun;
+}
+// The newest dish on the menu shows up in about half the orders; the rest share the other half.
+function pickDish(D){
+  const menu=D.menu,fresh=menu[menu.length-1];
+  if(menu.length===1||Math.random()<.45)return fresh;
+  return menu[rnd(0,menu.length-2)];
 }
 function makeOrder(D){
-  const k=Math.min(D.tops.length,rnd(D.minT,D.maxT));
-  const tops=shuffle(D.tops.slice()).slice(0,k).sort((a,b)=>a-b);
-  return {recipe:[0,1,...tops,8],name:burgerName(tops)};
+  const d=pickDish(D),N=DISHES[d],T=D.tops[d];
+  const k=Math.min(T.length,rnd(D.minT,D.maxT));
+  const tops=shuffle(T.slice()).slice(0,k).sort((a,b)=>a-b);
+  return {dish:d,recipe:[...IDS(d,N.base),...tops,...IDS(d,N.cap)],name:orderName(d,tops)};
 }
 let NID=1;
 function startDay(){
-  const D=DAYS[S.day];
+  const D=S.D=dayDef(S.week,S.day);
   S.loyaltyStart=S.loyalty;S.tipsStart=S.tips;
   const orders=[];for(let i=0;i<D.orders;i++)orders.push(makeOrder(D));
   const types=orders.flatMap(o=>o.recipe);
-  const pool=[1,...D.tops,...D.tops];
+  // spare cards: anything but each dish's bottom layer, with toppings twice as likely
+  const pool=D.menu.flatMap(d=>[...IDS(d,DISHES[d].base.slice(1)),...D.tops[d],...D.tops[d]]);
   const extra=Math.round(types.length*.2);
   for(let i=0;i<extra;i++)types.push(pool[rnd(0,pool.length-1)]);
   shuffle(types);

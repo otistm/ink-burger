@@ -1,13 +1,19 @@
 <!doctype html>
 <!-- Draws the app icons and the share image with the game's own burger. Not part of the game.
-     Open /tools/art.html?icon, ?maskable or ?og, or run tools/make-art.sh to write the PNGs. -->
+     Open /tools/art.html?icon, ?maskable or ?og, or ?cards to look over every card and dish, or run python tools/make-art.py to write the PNGs. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Bricolage+Grotesque:opsz,wght@12..96,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../play/styles.css" id="gamecss" disabled>
 <style>
 :root{--ink:#000;--paper:#fff}
 html,body{margin:0;background:#fff;overflow:hidden}
+body.review{overflow:auto;height:auto;padding:12px}
+.review .row{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px;align-items:flex-end}
+.review .card{position:relative;--cw:70px;--ch:92px}
+.review .dish{width:110px}
+.review .dish svg{width:100%;height:auto;overflow:visible}
 .icon{width:512px;height:512px;display:grid;place-items:center;background:#fff}
 .icon svg{width:74%;height:auto;overflow:visible}
 .maskable svg{width:56%}
@@ -31,7 +37,9 @@ html,body{margin:0;background:#fff;overflow:hidden}
 <script src="../play/js/draw.js"></script>
 <script>
 const q=location.search.slice(1)||'icon', out=document.getElementById('out');
-if(q==='og') out.innerHTML=`<div class="og">${burgerSVG([0,1,2,4,5,8],99,null,2.6)}<div><h1>Ink Burger</h1><p>Stack cards. Serve burgers. Beat the place across the street.</p></div></div>`;
+if(q==='cards'){document.getElementById('gamecss').disabled=false;document.body.className='review';
+  out.innerHTML=DISHES.map((D,d)=>`<div class="row">${D.ings.map((x,i)=>cardHTML({id:0,t:D.first+i,up:true},'',null,true)).join('')}<div class="dish">${burgerSVG([...IDS(d,D.base),...IDS(d,D.tops.slice(0,2)).sort((a,b)=>a-b),...IDS(d,D.cap)],99,null,2.2)}</div><div class="dish">${burgerSVG(IDS(d,D.ings.map((_,i)=>i)),2,null,2.2)}</div></div>`).join('');}
+else if(q==='og') out.innerHTML=`<div class="og">${burgerSVG([0,1,2,4,5,8],99,null,2.6)}<div><h1>Ink Burger</h1><p>Stack cards. Serve burgers. Beat the place across the street.</p></div></div>`;
 else out.innerHTML=`<div class="icon ${q}">${burgerSVG([0,1,2,4,8],99,null,3.2)}</div>`;
 </script>
 </body>
