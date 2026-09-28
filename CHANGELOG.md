@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.0-trace (prototype, not for main)
+- A different way to play the burger week: trace the recipe. The pantry is a grid of ingredient tiles.
+- Drag one finger through touching tiles (sideways or diagonally) in recipe order. The order builds on its ticket as you trace.
+- Let go on a finished order to serve it, or after two or more tiles to plate part of it and finish it later. Traces of three or more tip extra.
+- Used tiles pop and new ones drop in, leaning toward what the orders need. Stuck? Shake the pantry, but every customer waits a little longer.
+- Same tickets, tips, street meter, Glossy's stories and feedback as the main game. Burgers only, one week.
+
 ## 0.3.0
 - Ink Burger grows. The game is now seven weeks long. Each week Glossy's opens something new (pizza, pasta, a deli, a cantina, a bakery, a cookie shop), and Ink Burger adds that dish to its menu.
 - The menu mixes: each week serves the new dish plus the two before it. The new dish shows up in about half the orders.
