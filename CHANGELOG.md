@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0-stack (prototype, not for main)
+- A different way to play the burger week: drop and stack. The next ingredient swings on a hook above the plate; tap anywhere to drop it.
+- Land it on the stack to build the order at the front of the line (dashed outline). Too far off the layer below and it slides off, costing that customer patience. Let the stack lean too far and it topples, and you start that burger again.
+- Dead-centre drops are Perfect and add to the tip. The swing speeds up as the stack grows and as the week goes on.
+- Same tickets, tips, street meter, Glossy's stories and feedback as the main game. Burgers only, one week.
+
 ## 0.3.0
 - Ink Burger grows. The game is now seven weeks long. Each week Glossy's opens something new (pizza, pasta, a deli, a cantina, a bakery, a cookie shop), and Ink Burger adds that dish to its menu.
 - The menu mixes: each week serves the new dish plus the two before it. The new dish shows up in about half the orders.

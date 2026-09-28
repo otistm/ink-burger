@@ -2,3 +2,10 @@
 #stage{flex:1;min-height:0;position:relative;margin-top:12px}
 .rail{margin-top:10px}
 .kick+h1{margin-top:.05em}
+
+/* drop and stack */
+#world{position:absolute;inset:0;width:100%;height:100%;overflow:visible;touch-action:none;cursor:pointer}
+#world .sq{transform-box:fill-box;transform-origin:50% 100%}
+.taphint{position:absolute;left:0;right:0;bottom:70px;text-align:center;font-size:14px;font-weight:600;color:var(--mute);pointer-events:none;transition:opacity .4s}
+.taphint.gone{opacity:0}
+.float.small{font-size:15px}
