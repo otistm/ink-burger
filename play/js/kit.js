@@ -23,6 +23,7 @@ function drawRail(){
     const st=el.querySelector('.stamp span');
     if(st&&!S.stamped.has(id)){S.stamped.add(id);if(!RM)st.animate([{transform:'scale(2.2) rotate(-20deg)',opacity:0},{transform:'scale(.92) rotate(-11deg)',opacity:1,offset:.7},{transform:getComputedStyle(st).transform}],{duration:300,easing:'ease-in'})}
   });
+  GAME.afterRail&&GAME.afterRail();
 }
 // cheap per-frame update: patience bars and faces, without rebuilding the rail
 function railBars(){
