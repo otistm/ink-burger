@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0
+- Two new ways to play, picked from two buttons on the start screen: Drop and stack, and Trace. Solitaire is off the start screen for now; its code is kept so it can come back.
+- Drop and stack: the next ingredient swings on a hook above the plate; tap anywhere to drop it. Miss the layer below and it slides off, costing that customer patience. Lean too far and the stack topples, and you start that burger again. Dead-centre drops are Perfect and tip extra.
+- Trace: the pantry is a grid of ingredient tiles. Drag one finger through touching tiles in recipe order to build an order; let go on a finished order to serve it, or after two or more tiles to plate part of it. Longer traces tip more. Stuck? Shake the pantry, but everyone waits a little longer.
+- Both play the burger week, Monday to Friday, with the same tickets, tips, street meter and Glossy's stories. Each keeps its own best run.
+
 ## 0.3.0
 - Ink Burger grows. The game is now seven weeks long. Each week Glossy's opens something new (pizza, pasta, a deli, a cantina, a bakery, a cookie shop), and Ink Burger adds that dish to its menu.
 - The menu mixes: each week serves the new dish plus the two before it. The new dish shows up in about half the orders.

@@ -39,7 +39,7 @@ body.review{overflow:auto;height:auto;padding:12px}
 const q=location.search.slice(1)||'icon', out=document.getElementById('out');
 if(q==='cards'){document.getElementById('gamecss').disabled=false;document.body.className='review';
   out.innerHTML=DISHES.map((D,d)=>`<div class="row">${D.ings.map((x,i)=>cardHTML({id:0,t:D.first+i,up:true},'',null,true)).join('')}<div class="dish">${burgerSVG([...IDS(d,D.base),...IDS(d,D.tops.slice(0,2)).sort((a,b)=>a-b),...IDS(d,D.cap)],99,null,2.2)}</div><div class="dish">${burgerSVG(IDS(d,D.ings.map((_,i)=>i)),2,null,2.2)}</div></div>`).join('');}
-else if(q==='og') out.innerHTML=`<div class="og">${burgerSVG([0,1,2,4,5,8],99,null,2.6)}<div><h1>Ink Burger</h1><p>Stack cards. Serve burgers. Beat the place across the street.</p></div></div>`;
+else if(q==='og') out.innerHTML=`<div class="og">${burgerSVG([0,1,2,4,5,8],99,null,2.6)}<div><h1>Ink Burger</h1><p>Build burgers. Beat the place across the street.</p></div></div>`;
 else out.innerHTML=`<div class="icon ${q}">${burgerSVG([0,1,2,4,8],99,null,3.2)}</div>`;
 </script>
 </body>

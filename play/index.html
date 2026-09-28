@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
 <title>Ink Burger</title>
-<meta name="description" content="Stack cards. Serve burgers. Beat the place across the street.">
+<meta name="description" content="Build burgers. Beat the place across the street.">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#161616" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="/manifest.webmanifest">
@@ -18,21 +18,22 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ink Burger">
 <meta property="og:title" content="Ink Burger">
-<meta property="og:description" content="Stack cards. Serve burgers. Beat the place across the street.">
+<meta property="og:description" content="Build burgers. Beat the place across the street.">
 <meta property="og:url" content="https://ink-burger.vercel.app/play/">
 <link rel="canonical" href="https://ink-burger.vercel.app/play/">
 <meta property="og:image" content="https://ink-burger.vercel.app/og-image.png">
-<meta property="og:image:alt" content="Ink Burger: an ink-drawn burger beside the words Stack cards. Serve burgers.">
+<meta property="og:image:alt" content="Ink Burger: an ink-drawn burger beside the words Build burgers.">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ink Burger">
-<meta name="twitter:description" content="Stack cards. Serve burgers. Beat the place across the street.">
+<meta name="twitter:description" content="Build burgers. Beat the place across the street.">
 <meta name="twitter:image" content="https://ink-burger.vercel.app/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="proto.css">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -45,24 +46,18 @@
   <header class="top">
     <button class="icon" id="pauseBtn" aria-label="Pause"><svg viewBox="0 0 14 14"><rect x="2" y="1" width="3.5" height="12" rx="1" style="fill:var(--ink)"/><rect x="8.5" y="1" width="3.5" height="12" rx="1" style="fill:var(--ink)"/></svg></button>
     <div class="meter" aria-label="Share of the street">
-      <div class="mlab"><span>Ink Burger</span><span id="rival">Glossy's</span></div>
+      <div class="mlab"><span>Ink Burger</span><span>Glossy's</span></div>
       <div class="mbar"><i id="mfill"></i></div>
     </div>
     <div class="tips"><small>Tips</small><b id="tips">$0</b></div>
   </header>
   <section class="rail" id="rail"></section>
-  <section class="mid">
-    <div class="cell" id="prep0" data-drop="prep:0"></div>
-    <div class="cell" id="prep1" data-drop="prep:1"></div>
-    <div class="cell info" id="info"></div>
-    <div class="cell" id="waste"></div>
-    <div class="cell" id="stock" role="button" aria-label="Pantry: flip a card"></div>
-  </section>
-  <section class="tab" id="tab"></section>
+  <section id="stage"></section>
 </div>
 <div id="fx"></div>
 <div id="toast" role="status"></div>
 <div class="screen" id="screen"></div>
+<!-- The shared shell (kit.js) and the two play modes. The solitaire files (screens, rules, actions, input, flow, main) are kept but not loaded. -->
 <script src="js/config.js"></script>
 <script src="js/data.js"></script>
 <script src="js/core.js"></script>
@@ -71,12 +66,10 @@
 <script src="js/draw.js"></script>
 <script src="js/kitchen.js"></script>
 <script src="js/render.js"></script>
-<script src="js/rules.js"></script>
-<script src="js/actions.js"></script>
-<script src="js/input.js"></script>
-<script src="js/flow.js"></script>
-<script src="js/screens.js"></script>
-<script src="js/main.js"></script>
+<script src="js/kit.js"></script>
+<script src="js/stack.js"></script>
+<script src="js/trace.js"></script>
+<script>kitStart();</script>
 <script>if('serviceWorker' in navigator&&location.protocol==='https:') navigator.serviceWorker.register('/sw.js').catch(()=>{});</script>
 </body>
 </html>
