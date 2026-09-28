@@ -2,3 +2,32 @@
 #stage{flex:1;min-height:0;position:relative;margin-top:12px}
 .rail{margin-top:10px}
 .kick+h1{margin-top:.05em}
+
+/* kitchen deck */
+#stage{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:10px;padding-bottom:6px}
+.piles{margin:auto 0;display:flex;align-items:center;justify-content:center;gap:34px}
+.pile,.turn{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px}
+.pile .card{position:relative;--cw:58px;--ch:78px;box-shadow:3px 3px 0 var(--paper),4px 4px 0 var(--ink),7px 7px 0 var(--paper),8px 8px 0 var(--ink)}
+.pile .card.used{opacity:.45}
+.pile b,.turn b{font-family:'Bagel Fat One','Arial Black',sans-serif;font-weight:400;font-size:22px;line-height:1;margin-top:8px}
+.turn b{font-size:34px}
+.pile small,.turn small{font-size:12px;font-weight:600;color:var(--mute)}
+#dkRules{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;min-height:0}
+#dkRules span{border:2px solid var(--ink);border-radius:999px;padding:3px 10px;font-size:12px;font-weight:800}
+#hand{--cw:60px;--ch:82px;width:100%;display:flex;gap:5px;justify-content:center;margin-bottom:4px}
+#hand .card{position:relative;flex:1 1 0;max-width:62px;height:auto;aspect-ratio:.73;padding:0;font:inherit;color:var(--ink);text-align:left;cursor:pointer}
+#hand .card:active{transform:translateY(3px)}
+.card.spc{background:repeating-linear-gradient(0deg,transparent 0 7px,var(--faint) 7px 8px),var(--paper)}
+.card.spc .rk{font-size:12px}
+#nextTurn{margin:0 0 4px}
+#shop{width:100%;text-align:left;margin:4px 0 18px}
+#shop h2{margin:14px 0 6px}
+#shop .kick{margin:0 0 10px}
+.offers{display:grid;gap:8px}
+.offer{display:grid;grid-template-columns:1fr auto;align-items:center;gap:2px 10px;text-align:left;background:var(--paper);border:2px solid var(--ink);border-radius:12px;padding:9px 12px;font:inherit;color:var(--ink);cursor:pointer;box-shadow:0 3px 0 var(--ink)}
+.offer b{font-size:15px}
+.offer small{grid-column:1;font-size:12px;font-weight:600;color:var(--mute)}
+.offer i{grid-row:1/3;grid-column:2;font-style:normal;font-family:'Bagel Fat One','Arial Black',sans-serif;font-size:20px}
+.offer:disabled,.toss button:disabled{opacity:.4;cursor:default;box-shadow:none}
+.toss{display:flex;flex-wrap:wrap;gap:6px}
+.toss button{border:2px solid var(--ink);border-radius:999px;background:var(--paper);color:var(--ink);padding:5px 11px;font:800 13px 'Bricolage Grotesque',system-ui,sans-serif;cursor:pointer}

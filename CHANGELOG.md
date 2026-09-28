@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.0-deck (prototype, not for main)
+- A different way to play the burger week: a kitchen deck-builder. No clock; it's turn-based.
+- Each turn you draw a hand of six ingredient cards from your pantry deck. Tap a card to add it to the order that needs it next.
+- Next turn throws away the rest of your hand. Every waiting customer loses one turn of patience, and the next one comes in.
+- After each day, spend tips in the shop: more ingredient cards, special cards (Special sauce counts as any topping, Line cook draws two, Free coffee buys everyone a turn), house rules that last the week, or toss cards you don't want.
+- Each new topping arrives as two free cards on its first day. Same tickets, street meter, Glossy's stories and feedback as the main game. Burgers only, one week.
+
 ## 0.3.0
 - Ink Burger grows. The game is now seven weeks long. Each week Glossy's opens something new (pizza, pasta, a deli, a cantina, a bakery, a cookie shop), and Ink Burger adds that dish to its menu.
 - The menu mixes: each week serves the new dish plus the two before it. The new dish shows up in about half the orders.

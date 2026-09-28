@@ -154,10 +154,10 @@ function pauseScreen(){
 }
 scr.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;snd('pick');
-  if(a==='new'){S.day=0;S.loyalty=60;S.tips=0;introScreen()}
+  if(a==='new'){S.day=0;S.loyalty=60;S.tips=0;GAME.newRun&&GAME.newRun();introScreen()}
   else if(a==='start')startShift();
   else if(a==='next'){S.day++;introScreen()}
-  else if(a==='retry'){GAME.stop&&GAME.stop();S.loyalty=S.loyaltyStart;S.tips=S.tipsStart;startShift()}
+  else if(a==='retry'){GAME.stop&&GAME.stop();GAME.retry&&GAME.retry();S.loyalty=S.loyaltyStart;S.tips=S.tipsStart;startShift()}
   else if(a==='resume'){hide();S.mode='play';last=performance.now()}
   else if(a==='sound'){S.muted=!S.muted;b.textContent='Sound: '+(S.muted?'off':'on')}
   else if(a==='menu')titleScreen();
