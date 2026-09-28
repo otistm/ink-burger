@@ -1,0 +1,4 @@
+/* Ink Burger prototypes: layout shared by all three, on top of styles.css */
+#stage{flex:1;min-height:0;position:relative;margin-top:12px}
+.rail{margin-top:10px}
+.kick+h1{margin-top:.05em}
