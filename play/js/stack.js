@@ -1,7 +1,8 @@
-/* Ink Burger prototype A: drop and stack. The next ingredient swings on a hook above the plate; tap to drop it.
+/* Ink Burger, drop and stack mode. The next ingredient swings on a hook above the plate; tap to drop it.
    Land it on the stack to build the order at the front of the line (dashed outline on the rail). Too far off the layer
    below and it slides off, costing that customer some patience. A dead-centre landing is a "Perfect" and tips extra. */
 "use strict";
+MODES.stack=(()=>{
 const stage=$('#stage');
 const G={};                                  // this game's state
 let SW=360,SH=500,K=2.2,PX=180,PY=470;       // stage size, px per drawing unit, plate centre x, plate top y (world)
@@ -136,9 +137,9 @@ function tick(dt){
   if(!G.orders.length&&!liveTickets().length&&!G.busy&&S.slots.every(t=>!t))endShift();
 }
 
-const GAME={
+const ME={
   id:'stack',name:'Drop and stack',
-  blurb:'Swing, drop, stack. Build each burger before the customer gives up.',
+  blurb:'Time your drops. Build each burger layer by layer before the customer gives up.',
   how:['<b>Tap anywhere</b> to drop the swinging ingredient onto the plate. It always brings the next thing the order needs.',
     '<b>Land it on the stack.</b> Too far off the layer below and it slides off, and the customer loses patience.',
     '<b>Keep it straight.</b> Let the stack lean too far off the plate and it topples, and you start that burger again.',
@@ -154,6 +155,7 @@ const GAME={
   afterRail:markCur,
   stats:()=>`<p class="kick">Perfect drops: ${G.perfect} · Slid off: ${G.missed} · Toppled: ${G.toppled}</p>`,
 };
-stage.addEventListener('pointerdown',e=>{e.preventDefault();drop()});
-addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();drop()}});
-kitStart();
+stage.addEventListener('pointerdown',e=>{if(GAME!==ME)return;e.preventDefault();drop()});
+addEventListener('keydown',e=>{if(GAME===ME&&e.code==='Space'){e.preventDefault();drop()}});
+return ME;
+})();

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
 <title>Ink Burger</title>
-<meta name="description" content="Stack cards. Serve burgers. Beat the place across the street.">
+<meta name="description" content="Build burgers. Beat the place across the street.">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#161616" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="/manifest.webmanifest">
@@ -18,16 +18,16 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ink Burger">
 <meta property="og:title" content="Ink Burger">
-<meta property="og:description" content="Stack cards. Serve burgers. Beat the place across the street.">
+<meta property="og:description" content="Build burgers. Beat the place across the street.">
 <meta property="og:url" content="https://ink-burger.vercel.app/play/">
 <link rel="canonical" href="https://ink-burger.vercel.app/play/">
 <meta property="og:image" content="https://ink-burger.vercel.app/og-image.png">
-<meta property="og:image:alt" content="Ink Burger: an ink-drawn burger beside the words Stack cards. Serve burgers.">
+<meta property="og:image:alt" content="Ink Burger: an ink-drawn burger beside the words Build burgers.">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ink Burger">
-<meta name="twitter:description" content="Stack cards. Serve burgers. Beat the place across the street.">
+<meta name="twitter:description" content="Build burgers. Beat the place across the street.">
 <meta name="twitter:image" content="https://ink-burger.vercel.app/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,7 +57,7 @@
 <div id="fx"></div>
 <div id="toast" role="status"></div>
 <div class="screen" id="screen"></div>
-<!-- Prototype: the shared shell (kit.js) and one game file. The solitaire files are kept but not loaded. -->
+<!-- The shared shell (kit.js) and the two play modes. The solitaire files (screens, rules, actions, input, flow, main) are kept but not loaded. -->
 <script src="js/config.js"></script>
 <script src="js/data.js"></script>
 <script src="js/core.js"></script>
@@ -68,6 +68,8 @@
 <script src="js/render.js"></script>
 <script src="js/kit.js"></script>
 <script src="js/stack.js"></script>
+<script src="js/trace.js"></script>
+<script>kitStart();</script>
 <script>if('serviceWorker' in navigator&&location.protocol==='https:') navigator.serviceWorker.register('/sw.js').catch(()=>{});</script>
 </body>
 </html>

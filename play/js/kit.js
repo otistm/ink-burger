@@ -1,9 +1,13 @@
-/* Ink Burger prototypes: the shared shell. Screens, street meter, tips, the ticket rail, serving and walkouts, and the day
-   flow for the burger week. Each prototype adds one game file that defines GAME and calls kitStart() at its end:
-   GAME = {id, name, blurb, how:[...], start(D), tick(dt), stop()}. The old solitaire files stay in the repo, unused. */
+/* Ink Burger: the shell both play modes share. Screens, street meter, tips, the ticket rail, serving and walkouts, and the
+   day flow for the burger week. Each mode file adds itself to MODES as {id, name, blurb, how:[...], start(D), tick(dt),
+   stop(), and optional resize, afterRail, stats}; GAME is the mode being played. kitStart() runs last, from the page. */
 "use strict";
-let PB={};                       // this prototype's own saved best, kept apart from the real game's save
-const pbKey=()=>'inkburger-proto-'+GAME.id;
+const MODES={};
+let GAME=null;
+let PB={};                       // the chosen mode's saved best, kept apart from the solitaire save
+const pbKey=()=>'inkburger-'+GAME.id;
+function useMode(id){GAME=MODES[id];try{PB=JSON.parse(localStorage.getItem(pbKey())||'{}')||{}}catch(e){PB={}}}
+function bestOf(id){try{return JSON.parse(localStorage.getItem('inkburger-'+id)||'{}')||{}}catch(e){return{}}}
 function savePB(){try{localStorage.setItem(pbKey(),JSON.stringify(PB))}catch(e){}}
 
 /* ---------- sizing ---------- */
@@ -23,7 +27,7 @@ function drawRail(){
     const st=el.querySelector('.stamp span');
     if(st&&!S.stamped.has(id)){S.stamped.add(id);if(!RM)st.animate([{transform:'scale(2.2) rotate(-20deg)',opacity:0},{transform:'scale(.92) rotate(-11deg)',opacity:1,offset:.7},{transform:getComputedStyle(st).transform}],{duration:300,easing:'ease-in'})}
   });
-  GAME.afterRail&&GAME.afterRail();
+  GAME&&GAME.afterRail&&GAME.afterRail();
 }
 // cheap per-frame update: patience bars and faces, without rebuilding the rail
 function railBars(){
@@ -93,20 +97,23 @@ function recordBest(won){
   const better=won?(!PB.won||S.tips>PB.tips):(!PB.won&&(PB.day==null||S.day>PB.day||(S.day===PB.day&&S.tips>PB.tips)));
   if(better){PB.day=S.day;PB.tips=S.tips;if(won)PB.won=true;savePB()}
 }
-function bestLine(){
-  if(PB.won)return `Best: won the week with $${PB.tips} in tips`;
-  if(PB.day!=null)return `Best: reached ${DAYNAMES[PB.day]} with $${PB.tips} in tips`;
-  return '';
+function bestLine(B){
+  if(B.won)return `Best: won the week with $${B.tips} in tips`;
+  if(B.day!=null)return `Best: reached ${DAYNAMES[B.day]} with $${B.tips} in tips`;
+  return 'Not played yet';
 }
 function titleScreen(){
-  S.mode='menu';GAME.stop&&GAME.stop();
+  S.mode='menu';GAME&&GAME.stop&&GAME.stop();
   show(`${burgerSVG([0,1,2,4,5,8],99,null,2.6,'logo')}
-    <p class="kick">Prototype</p><h1>${GAME.name}</h1>
-    <p class="tag">${GAME.blurb}</p>
-    <button class="btn" data-act="new">Open the kitchen</button>
-    <div class="howto"><h2>How to cook</h2>${GAME.how.map(h=>`<p>${h}</p>`).join('')}</div>
-    <p class="best">${bestLine()}</p>
+    <h1>Ink Burger</h1>
+    <p class="tag">Build burgers. Beat the place across the street.</p>
+    <p class="kick">How do you want to cook?</p>
+    <div class="modes">${['stack','trace'].map(id=>`<button class="mode" data-act="new" data-mode="${id}">
+      <b>${MODES[id].name}</b><span>${MODES[id].blurb}</span><small>${bestLine(bestOf(id))}</small></button>`).join('')}</div>
     <p class="ver">Version ${VERSION}${ONLINE?' · ':''}${feedbackLink()}</p>`);
+  if(!RM)scr.querySelectorAll('.logo g').forEach((g,i)=>g.animate([
+    {transform:'translateY(-150px)',opacity:0},{transform:'translateY(0) scale(1.18,.62)',opacity:1,offset:.68},
+    {transform:'scale(.94,1.1)',offset:.84},{transform:'none'}],{duration:560,delay:150+i*140,easing:'cubic-bezier(.55,0,.8,.6)',fill:'backwards'}));
 }
 function introScreen(){
   S.mode='intro';const D=dayDef(0,S.day);
@@ -115,14 +122,15 @@ function introScreen(){
     <p class="story">${D.story}</p>
     <div class="fresh"><p>${S.day===0?'On the line today':'New on the line'}</p><div class="freshcards">${fresh}</div></div>
     ${meterHTML()}
-    <button class="btn" data-act="start">Start shift</button>`);
+    <button class="btn" data-act="start">Start shift</button>
+    ${S.day===0?`<div class="howto"><h2>How to cook: ${GAME.name}</h2>${GAME.how.map(h=>`<p>${h}</p>`).join('')}</div>`:''}`);
 }
 function endDay(){
   const lastDay=S.day===DAYNAMES.length-1;
   recordBest(lastDay);S.mode='end';
   if(lastDay){
     show(`<p class="kick">Friday, closing time</p><h1>The street is yours</h1>
-      <p class="story">You won the burger week. In the full game, Glossy's would open a pizza place next.</p>
+      <p class="story">Saturday morning, the neon at Glossy's flickered and went dark. Your regulars never left.</p>
       <div class="stats"><div><b>$${S.tips}</b><span>tips this week</span></div><div><b>${S.loyalty}%</b><span>of the street</span></div></div>
       <button class="btn" data-act="new">Run it back</button><button class="btn quiet" data-act="menu">Back to menu</button>
       <p class="ver">${feedbackLink()}</p>`);
@@ -154,7 +162,7 @@ function pauseScreen(){
 }
 scr.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;snd('pick');
-  if(a==='new'){S.day=0;S.loyalty=60;S.tips=0;introScreen()}
+  if(a==='new'){if(b.dataset.mode)useMode(b.dataset.mode);S.day=0;S.loyalty=60;S.tips=0;introScreen()}
   else if(a==='start')startShift();
   else if(a==='next'){S.day++;introScreen()}
   else if(a==='retry'){GAME.stop&&GAME.stop();S.loyalty=S.loyaltyStart;S.tips=S.tipsStart;startShift()}
@@ -168,10 +176,9 @@ scr.addEventListener('click',e=>{
 let last=performance.now();
 function loop(now){const dt=Math.min(.1,(now-last)/1000);last=now;if(S.mode==='play'){S.clock+=dt;GAME.tick(dt)}requestAnimationFrame(loop)}
 function kitStart(){
-  try{PB=JSON.parse(localStorage.getItem(pbKey())||'{}')||{}}catch(e){PB={}}
   $('#pauseBtn').addEventListener('click',pauseScreen);
   document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseScreen()});
-  addEventListener('resize',()=>{sizeKit();GAME.resize&&GAME.resize()});
+  addEventListener('resize',()=>{sizeKit();GAME&&GAME.resize&&GAME.resize()});
   sizeKit();S.slots=[null,null];drawRail();hud();
   requestAnimationFrame(loop);
   titleScreen();

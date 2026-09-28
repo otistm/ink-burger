@@ -1,7 +1,7 @@
 {
   "name": "Ink Burger",
   "short_name": "Ink Burger",
-  "description": "Stack cards. Serve burgers. Beat the place across the street.",
+  "description": "Build burgers. Beat the place across the street.",
   "start_url": "/play/",
   "scope": "/",
   "display": "standalone",

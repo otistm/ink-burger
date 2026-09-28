@@ -9,3 +9,23 @@
 .taphint{position:absolute;left:0;right:0;bottom:70px;text-align:center;font-size:14px;font-weight:600;color:var(--mute);pointer-events:none;transition:opacity .4s}
 .taphint.gone{opacity:0}
 .float.small{font-size:15px}
+/* trace the recipe */
+#stage{touch-action:none}
+#grid{position:absolute;inset:0}
+.tile{position:absolute;left:0;top:0;width:var(--ts);height:var(--ts);border:2px solid var(--ink);border-radius:12px;background:var(--paper);box-shadow:0 2px 0 var(--ink);transition:background .1s}
+.tile .art{position:absolute;left:9%;top:14%;width:82%;height:auto;overflow:visible}
+.tile span{position:absolute;left:2px;right:2px;bottom:3px;text-align:center;font-size:clamp(8px,calc(var(--ts)*.15),11px);font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.02em}
+.tile.on{background:repeating-linear-gradient(45deg,var(--faint) 0 2px,transparent 2px 6px),var(--paper);box-shadow:0 0 0 3px var(--ink)}
+#path{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+#pline{fill:none;stroke:var(--ink);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;opacity:.4}
+.tracebar{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:10px;height:46px}
+.tracebar span{font-size:13px;font-weight:600;color:var(--mute);line-height:1.2}
+.tracebar .btn.quiet{margin:0;padding:8px 14px;font-size:13px;white-space:nowrap}
+
+/* the two modes on the start screen */
+.modes{display:grid;gap:12px;width:100%;margin:10px 0 18px}
+.mode{display:grid;gap:3px;text-align:left;background:var(--paper);color:var(--ink);border:2.5px solid var(--ink);border-radius:18px;padding:14px 16px;box-shadow:0 4px 0 var(--ink);font:inherit;cursor:pointer}
+.mode:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.mode b{font-family:'Bagel Fat One','Arial Black',sans-serif;font-weight:400;font-size:26px;line-height:1.05}
+.mode span{font-size:14px;line-height:1.35}
+.mode small{font-size:12px;font-weight:600;color:var(--mute);margin-top:3px}
